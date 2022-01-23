@@ -1,0 +1,14 @@
+[00:01:14] Killed boss 0 with 212.60e0 money and 6e0% dmg in 69.17s
+[00:01:49] Entering boss 1 with 7.73e0 money and 14e0% dmg in 104.67s
+[00:03:07] Killed boss 1 with 20.21e3 money and 50.82e3% dmg in 78.11s
+[00:03:47] Entering boss 2 with 811.29e0 money and 55.66e0% dmg in 117.50s
+[00:04:57] Killed boss 2 with 5.00e6 money and 139.33e6% dmg in 69.84s
+[00:04:59] Entering boss 3 with 3.73e6 money and 139.33e6% dmg in 72.64s
+[00:07:00] Killed boss 3 with 675.28e6 money and 1.86e6% dmg in 121.02s
+[00:07:03] Entering boss 4 with 605.29e6 money and 1.86e6% dmg in 123.95s
+[00:08:32] Killed boss 4 with 57.44e9 money and 2.49e9% dmg in 88.19s
+[00:08:35] Entering boss 5 with 53.59e9 money and 2.49e9% dmg in 92.11s
+[00:11:05] Killed boss 5 with 4.09e12 money and 19.24e12% dmg in 149.20s
+[00:11:31] Entering boss 6 with 4.94e12 money and 19.24e12% dmg in 175.58s
+[00:15:01] Killed boss 6 with 495.20e12 money and 62.18e12% dmg in 209.91s
+[00:15:05] Entering boss 7 with 483.55e12 money and 62.18e12% dmg in 214.35s

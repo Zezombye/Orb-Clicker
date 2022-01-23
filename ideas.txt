@@ -1,0 +1,77 @@
+
+Fight all 32 heroes as bots
+Each bot has its stats multiplied by 4-5 
+
+- money * ult charge
+- more health
+- more dmg reduction
+- critical chance + multiplier
+- poison
+- custom abilities to unlock
+- extra life mechanic
+- money * nb of letters in boss name
+- cost scaled by -5%
+- headshots ^2 instead of *2
+- each crit has a chance to be a "super crit" where crit multiplier is squared
+- money multiplied by the nb of boss souls
+- dmg ^ current boss
+- reduce scaling factor of hp
+- individual dmg modifiers per ability
+- perks
+- damage multiplied by the amount of bullets not missed
+- start with x% amount of poison dmg already dealt
+- temporary dmg boost
+
+- bot has too much hp, gotta push it into the void
+
+- instantly go to next boss upon killing current boss?
+- reset ult on going to spawn?
+
+
+
+(10000 * (x ** (0.0001) - 1))
+(10000 * ((x * 10^y) ** (0.0001) - 1))
+(10000 * ((x^0.0001) * (10^y)^0.0001 - 1))
+
+Moira, supreme goddess of everything
+
+
+best to worst heroes to have ideas with:
+
+good:
+- Reaper
+- Reinhardt
+- Bastion
+- Symmetra
+- Torbjorn
+- Genji
+- McCree
+- Junkrat
+- Zarya
+- Soldier
+- Mei
+- Ana
+- Brigitte
+- Moira
+- Ashe
+- Echo
+- Baptiste
+- Sigma
+
+meh:
+- Hanzo
+- Pharah
+- Widowmaker
+- Zenyatta
+- Roadhog
+- Lucio
+- Dva
+- Doomfist
+- Orisa
+- Hammond
+
+shit:
+- Mercy
+- Tracer
+- Winston
+- Sombra

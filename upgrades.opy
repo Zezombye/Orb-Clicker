@@ -1,3 +1,4 @@
+#!mainFile "main.opy"
 
 enum ShopPositions:
     DMG = vect(-194, 20, 96),
@@ -13,7 +14,7 @@ enum ShopPositions:
     NEXT_BOSS = vect(-186, 20, 92)
 
 enum UnlockThresholds:
-    DMG = 1,
+    DMG = 0,
     DMG_MULT = 1,
     MONEY = 1,
     CRIT_CHANCE = 1,

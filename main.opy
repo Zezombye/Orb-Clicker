@@ -23,6 +23,8 @@ enum LeftSortOrder:
 
 enum TopSortOrder:
     BOSS_HP_BAR,
+    SHOP_DESCRIPTION_VERTICAL_OFFSET,
+    SHOP_DESCRIPTION,
     
 globalvar suffixes = ["", "K", "M", "B", "T", "Qạ", "Qі", "Sҳ", "Sṗ", "Oƈ", "Nο", "Dƈ", "Uḍ", "Dḍ", "Tḍ", "Qạḍ", "Qіḍ", "Sҳḍ", "Sṗḍ", "Oḍ", "Nḍ"]
 
@@ -96,6 +98,35 @@ rule "init":
     hudSubtext(localPlayer, "current boss: {}, time to beat: {}".format(localPlayer.currentBoss, localPlayer.timeToBeatBoss), HudPosition.LEFT, LeftSortOrder.BOSS, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     #hudSubtext(localPlayer, "dmg ratio*1000: {}, hp mult: {}".format(localPlayer.damageRatio*1000, formatNb(bossHpMult[localPlayer.currentBoss])), HudPosition.LEFT, LeftSortOrder.DMG_RATIO, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     #hudHeader(localPlayer, localPlayer.lastDmgDealt, HudPosition.LEFT, LeftSortOrder.LAST_DMG_DEALT, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", HudPosition.TOP, TopSortOrder.SHOP_DESCRIPTION_VERTICAL_OFFSET, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudHeader(any([pos for pos in [
+        ShopPositions.DMG if UnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_MULT if UnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.MONEY if UnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_CHANCE if UnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_MULT if UnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_COST_REDUCTION if UnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.POISON if UnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.LIFE if UnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+    ] if pos != null and distance(localPlayer.getPosition(), pos) < 1]), "{}\n\n[{}] to buy | {} money".format({
+        ShopPositions.DMG: "Description for DMG",
+        ShopPositions.DMG_MULT: "Description for DMG_MULT",
+        ShopPositions.MONEY: "Description for MONEY",
+        ShopPositions.CRIT_CHANCE: "Description for CRIT_CHANCE",
+        ShopPositions.CRIT_MULT: "Description for CRIT_MULT",
+        ShopPositions.DMG_COST_REDUCTION: "Description for DMG_COST_REDUCTION",
+        ShopPositions.POISON: "Description for POISON",
+        ShopPositions.LIFE: "Description for LIFE",
+    }[[pos for pos in [
+        ShopPositions.DMG if UnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_MULT if UnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.MONEY if UnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_CHANCE if UnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_MULT if UnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_COST_REDUCTION if UnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.POISON if UnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.LIFE if UnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+    ] if pos != null and distance(localPlayer.getPosition(), pos) < 1][0]], buttonString(Button.INTERACT), formatNb(localPlayer.money)), HudPosition.TOP, TopSortOrder.SHOP_DESCRIPTION, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
     for i in range(1, len(bossHeroes)):
         bossHpMult[i] = multiplyBySmallNb(bossHpMult[i-1], BOSS_HP_MULT)

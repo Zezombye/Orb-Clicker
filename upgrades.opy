@@ -1,52 +1,65 @@
 #!mainFile "main.opy"
 
-enum ShopPositions:
-    DMG = vect(-194, 20, 96),
-    DMG_MULT = vect(-190, 20, 96),
-    MONEY = vect(-194, 20, 100),
-    CRIT_CHANCE = vect(-192, 20, 96),
-    CRIT_MULT = vect(-192, 20, 98),
-    DMG_COST_REDUCTION = vect(-192, 20, 100),
-    POISON = vect(-190, 20, 98),
-    LIFE = vect(-194, 20, 98),
+#!define generateUpgrades(upgrades) __script__("generateUpgrades.js")
 
-    CURRENT_BOSS = vect(-190, 20, 92),
-    NEXT_BOSS = vect(-186, 20, 92)
+generateUpgrades({
+    
+    "dmg": {
+        buyPos: vect(-194, 20, 96),
+        unlockAtBoss: 0,
+        baseCost: vect(10, 0, 0),
+        costMultiplier: 1.1,
+    },
+    "dmg_mult": {
+        buyPos: vect(-190, 20, 96),
+        unlockAtBoss: 1,
+        baseCost: vect(5, 3, 0),
+        costMultiplier: 1.5,
+    },
+    "money": {
+        buyPos: vect(-194, 20, 100),
+        unlockAtBoss: 1,
+        baseCost: vect(1, 3, 0),
+        costMultiplier: 1.3,
+    },
+    "crit_chance": {
+        buyPos: vect(-192, 20, 96),
+        unlockAtBoss: 1,
+        baseCost: vect(250, 3, 0),
+        costMultiplier: null, //#"factorial",
+    },
+    "crit_mult": {
+        buyPos: vect(-192, 20, 98),
+        unlockAtBoss: 1,
+        baseCost: vect(7, 15, 0),
+        costMultiplier: 1.3,
+    },
+    "dmg_cost_reduction": {
+        buyPos: vect(-192, 20, 100),
+        unlockAtBoss: 2,
+        baseCost: vect(5, 3, 0),
+        costMultiplier: 1.15,
+    },
+    "poison": {
+        buyPos: vect(-190, 20, 98),
+        unlockAtBoss: 13,
+        baseCost: vect(20, 27, 0),
+        costMultiplier: 5,
+    },
+    "life": {
+        buyPos: vect(-194, 20, 98),
+        unlockAtBoss: 4,
+        baseCost: vect(4, 0, 0),
+        costMultiplier: 1.2,
+    },
+})
 
-enum UnlockThresholds:
-    DMG = 0,
-    DMG_MULT = 1,
-    MONEY = 1,
-    CRIT_CHANCE = 1,
-    CRIT_MULT = 1,
-    DMG_COST_REDUCTION = 2,
-    POISON = 13,
-    LIFE = 4,
+
+enum UpgradesUnlockThresholds:
     DMG_UPGRADE_1 = 6,
     MONEY_ULT_CHARGE = 7,
     CRIT_SQUARED = 9,
 
-enum BaseCosts:
-    DMG = vect(10, 0, 0),
-    DMG_MULT = vect(5, 3, 0),
-    MONEY = vect(1, 3, 0),
-    CRIT_CHANCE = vect(250, 3, 0),
-    CRIT_MULT = vect(7, 15, 0),
-    DMG_COST_REDUCTION = vect(5, 3, 0),
-    POISON = vect(20, 27, 0),
-    LIFE = 4,
-    NEXT_BOSS = vect(69, 0, 0)
-
-enum CostMultipliers:
-    DMG = 1.1,
-    DMG_MULT = 1.5,
-    MONEY = 1.3,
-    #CRIT_CHANCE = factorial,
-    CRIT_MULT = 1.3,
-    DMG_COST_REDUCTION = 1.15,
-    POISON = 5,
-    LIFE = 1.2,
-    NEXT_BOSS = 10,
 
 #!define BOSS_HP_MULT 5
 #!define BOSS_DMG_MULT 2

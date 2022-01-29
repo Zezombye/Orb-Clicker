@@ -44,7 +44,6 @@ playervar isFighting = false #if not fighting, we assume the player is in shop
 
 playervar currentBoss = 0
 
-playervar nextBossCost = BaseCosts.NEXT_BOSS
 playervar hasKilledBoss = false
 playervar tempCalculation
 playervar name
@@ -53,22 +52,22 @@ playervar timeToBeatBoss
 
 playervar money = vect(0.00000000001, 0, 0)
 playervar moneyMultiplier = vect(1, 0, 0)
-playervar moneyCost = BaseCosts.MONEY
+playervar moneyCost = ShopBaseCosts.MONEY
 playervar moneyIncrement = vect(1, 0, 0)
 
-playervar dmgCost = BaseCosts.DMG
+playervar dmgCost = ShopBaseCosts.DMG
 playervar dmgMultiplier = vect(1, 0, 0)
-playervar dmgMultiplierCost = BaseCosts.DMG_MULT
+playervar dmgMultiplierCost = ShopBaseCosts.DMG_MULT
 playervar dmgIncrement = vect(1, 0, 0)
 
 playervar critChance = 0
-playervar critChanceCost = BaseCosts.CRIT_CHANCE
+playervar critChanceCost = ShopBaseCosts.CRIT_CHANCE
 
 playervar critMult = BASE_CRIT_MULT
-playervar critMultCost = BaseCosts.CRIT_MULT
+playervar critMultCost = ShopBaseCosts.CRIT_MULT
 
 playervar dmgCostReduction = vect(1, 0, 0)
-playervar dmgCostReductionCost = BaseCosts.DMG_COST_REDUCTION
+playervar dmgCostReductionCost = ShopBaseCosts.DMG_COST_REDUCTION
 
 playervar damageRatio = 100
 playervar hasUnlockedMoneyUltCharge = false
@@ -86,6 +85,8 @@ playervar dmgIndicatorTextIndex = 0
 #!define DMG_INDICATOR_GRAVITY 30
 #!define DMG_INDICATOR_MAX_TEXTS 25
 
+#!define BOSS_PORTAL_POSITION vect(-188, 20, 92)
+
 #!include "dummy.opy"
 
 rule "init":
@@ -100,14 +101,14 @@ rule "init":
     #hudHeader(localPlayer, localPlayer.lastDmgDealt, HudPosition.LEFT, LeftSortOrder.LAST_DMG_DEALT, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     hudSubtext(localPlayer, " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", HudPosition.TOP, TopSortOrder.SHOP_DESCRIPTION_VERTICAL_OFFSET, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     hudHeader(any([pos for pos in [
-        ShopPositions.DMG if UnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.DMG_MULT if UnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.MONEY if UnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.CRIT_CHANCE if UnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.CRIT_MULT if UnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.DMG_COST_REDUCTION if UnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.POISON if UnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.LIFE if UnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG if ShopUnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_MULT if ShopUnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.MONEY if ShopUnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_CHANCE if ShopUnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_MULT if ShopUnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_COST_REDUCTION if ShopUnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.POISON if ShopUnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.LIFE if ShopUnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
     ] if pos != null and distance(localPlayer.getPosition(), pos) < 1]), "{}\n\n[{}] to buy | {} money".format({
         ShopPositions.DMG: "Description for DMG",
         ShopPositions.DMG_MULT: "Description for DMG_MULT",
@@ -118,14 +119,14 @@ rule "init":
         ShopPositions.POISON: "Description for POISON",
         ShopPositions.LIFE: "Description for LIFE",
     }[[pos for pos in [
-        ShopPositions.DMG if UnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.DMG_MULT if UnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.MONEY if UnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.CRIT_CHANCE if UnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.CRIT_MULT if UnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.DMG_COST_REDUCTION if UnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.POISON if UnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
-        ShopPositions.LIFE if UnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG if ShopUnlockThresholds.DMG <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_MULT if ShopUnlockThresholds.DMG_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.MONEY if ShopUnlockThresholds.MONEY <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_CHANCE if ShopUnlockThresholds.CRIT_CHANCE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.CRIT_MULT if ShopUnlockThresholds.CRIT_MULT <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.DMG_COST_REDUCTION if ShopUnlockThresholds.DMG_COST_REDUCTION <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.POISON if ShopUnlockThresholds.POISON <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
+        ShopPositions.LIFE if ShopUnlockThresholds.LIFE <= localPlayer.currentBoss + localPlayer.hasKilledBoss else null,
     ] if pos != null and distance(localPlayer.getPosition(), pos) < 1][0]], buttonString(Button.INTERACT), formatNb(localPlayer.money)), HudPosition.TOP, TopSortOrder.SHOP_DESCRIPTION, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.NEVER)
 
     for i in range(1, len(bossHeroes)):
@@ -194,12 +195,11 @@ rule "create spheres":
 
 rule "create effects":
     createEffect(getAllPlayers(), Effect.GOOD_AURA, Color.GREEN, vect(-190.005, 21.5, 92.05), 1, EffectReeval.VISIBILITY)
-    createInWorldText(getAllPlayers(), "[{}] go to current boss".format(buttonString(Button.INTERACT)), ShopPositions.CURRENT_BOSS+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.GREEN, SpecVisibility.ALWAYS)
+    createInWorldText(getAllPlayers(), "[{}] go to current boss".format(buttonString(Button.INTERACT)), BOSS_PORTAL_POSITION+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.GREEN, SpecVisibility.ALWAYS)
     createEffect(getAllPlayers(), Effect.GOOD_AURA, Color.BLUE, vect(-185.998, 21.5, 92.021), 1, EffectReeval.VISIBILITY)
-    createInWorldText(getAllPlayers(), "[{}] go to next boss:\n{}×money\ncost: ${}".format(buttonString(Button.INTERACT), BOSS_MONEY_MULT, formatNb(localPlayer.nextBossCost)) if localPlayer.hasKilledBoss else "Kill current boss to go to next boss", ShopPositions.NEXT_BOSS+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.BLUE, SpecVisibility.ALWAYS)
 
-    createEffect([localPlayer.currentBoss + localPlayer.hasKilledBoss >= UnlockThresholds.MONEY], Effect.RING, Color.LIME_GREEN, ShopPositions.MONEY, 1, EffectReeval.VISIBILITY)
-    createInWorldText([localPlayer.currentBoss + localPlayer.hasKilledBoss >= UnlockThresholds.MONEY], "+{} money/dmg: ${}".format(formatNb(localPlayer.moneyIncrement), formatNb(localPlayer.moneyCost)), ShopPositions.MONEY+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.LIME_GREEN, SpecVisibility.ALWAYS)
+    createEffect([localPlayer.currentBoss + localPlayer.hasKilledBoss >= ShopUnlockThresholds.MONEY], Effect.RING, Color.LIME_GREEN, ShopPositions.MONEY, 1, EffectReeval.VISIBILITY)
+    createInWorldText([localPlayer.currentBoss + localPlayer.hasKilledBoss >= ShopUnlockThresholds.MONEY], "+{} money/dmg: ${}".format(formatNb(localPlayer.moneyIncrement), formatNb(localPlayer.moneyCost)), ShopPositions.MONEY+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.LIME_GREEN, SpecVisibility.ALWAYS)
 
     createEffect(getAllPlayers(), Effect.RING, Color.AQUA, ShopPositions.DMG, 1, EffectReeval.VISIBILITY)
     createInWorldText(getAllPlayers(), "+{}% dmg: ${}".format(formatNb(localPlayer.dmgIncrement), formatNb(multiply(localPlayer.dmgCost, localPlayer.dmgCostReduction))), ShopPositions.DMG+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.AQUA, SpecVisibility.ALWAYS)
@@ -236,54 +236,42 @@ rule "press f":
         if isLessThanOrEqual(multiply(eventPlayer.dmgCost, eventPlayer.dmgCostReduction), eventPlayer.money):
             eventPlayer.dmgMultiplier = add(eventPlayer.dmgMultiplier, eventPlayer.dmgIncrement)
             eventPlayer.money = subtract(eventPlayer.money, multiply(eventPlayer.dmgCost, eventPlayer.dmgCostReduction))
-            eventPlayer.dmgCost = multiplyBySmallNb(eventPlayer.dmgCost, CostMultipliers.DMG)
+            eventPlayer.dmgCost = multiplyBySmallNb(eventPlayer.dmgCost, ShopCostMultipliers.DMG)
     
-    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= UnlockThresholds.MONEY and distance(eventPlayer.getPosition(), ShopPositions.MONEY) < 1:
+    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= ShopUnlockThresholds.MONEY and distance(eventPlayer.getPosition(), ShopPositions.MONEY) < 1:
         if isLessThanOrEqual(eventPlayer.moneyCost, eventPlayer.money):
             eventPlayer.moneyMultiplier = add(eventPlayer.moneyMultiplier, eventPlayer.moneyIncrement)
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.moneyCost)
-            eventPlayer.moneyCost = multiplyBySmallNb(eventPlayer.moneyCost, CostMultipliers.MONEY)
+            eventPlayer.moneyCost = multiplyBySmallNb(eventPlayer.moneyCost, ShopCostMultipliers.MONEY)
 
             
-    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= UnlockThresholds.DMG_MULT and distance(eventPlayer.getPosition(), ShopPositions.DMG_MULT) < 1:
+    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= ShopUnlockThresholds.DMG_MULT and distance(eventPlayer.getPosition(), ShopPositions.DMG_MULT) < 1:
         if isLessThanOrEqual(eventPlayer.dmgMultiplierCost, eventPlayer.money):
             eventPlayer.dmgMultiplier = multiplyBySmallNb(eventPlayer.dmgMultiplier, DMG_MULT_VALUE)
             eventPlayer.dmgIncrement = multiplyBySmallNb(eventPlayer.dmgIncrement, DMG_MULT_VALUE)
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.dmgMultiplierCost)
-            eventPlayer.dmgMultiplierCost = multiplyBySmallNb(eventPlayer.dmgMultiplierCost, CostMultipliers.DMG_MULT)
+            eventPlayer.dmgMultiplierCost = multiplyBySmallNb(eventPlayer.dmgMultiplierCost, ShopCostMultipliers.DMG_MULT)
 
-    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= UnlockThresholds.CRIT_MULT and distance(eventPlayer.getPosition(), ShopPositions.CRIT_MULT) < 1:
+    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= ShopUnlockThresholds.CRIT_MULT and distance(eventPlayer.getPosition(), ShopPositions.CRIT_MULT) < 1:
         if isLessThanOrEqual(eventPlayer.critMultCost, eventPlayer.money):
             eventPlayer.critMult += CRIT_MULT_INCREMENT
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.critMultCost)
-            eventPlayer.critMultCost = multiplyBySmallNb(eventPlayer.critMultCost, CostMultipliers.CRIT_MULT)
+            eventPlayer.critMultCost = multiplyBySmallNb(eventPlayer.critMultCost, ShopCostMultipliers.CRIT_MULT)
 
-    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= UnlockThresholds.CRIT_CHANCE and distance(eventPlayer.getPosition(), ShopPositions.CRIT_CHANCE) < 1:
+    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= ShopUnlockThresholds.CRIT_CHANCE and distance(eventPlayer.getPosition(), ShopPositions.CRIT_CHANCE) < 1:
         if isLessThanOrEqual(eventPlayer.critChanceCost, eventPlayer.money):
             eventPlayer.critChance++
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.critChanceCost)
             eventPlayer.critChanceCost = multiplyBySmallNb(eventPlayer.critChanceCost, eventPlayer.critChance+1)
             
-    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= UnlockThresholds.DMG_COST_REDUCTION and distance(eventPlayer.getPosition(), ShopPositions.DMG_COST_REDUCTION) < 1:
+    elif eventPlayer.currentBoss + eventPlayer.hasKilledBoss >= ShopUnlockThresholds.DMG_COST_REDUCTION and distance(eventPlayer.getPosition(), ShopPositions.DMG_COST_REDUCTION) < 1:
         if isLessThanOrEqual(eventPlayer.dmgCostReductionCost, eventPlayer.money):
             eventPlayer.dmgCostReduction = multiplyBySmallNb(eventPlayer.dmgCostReduction, DMG_REDUCTION_COST_MULT)
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.dmgCostReductionCost)
-            eventPlayer.dmgCostReductionCost = multiplyBySmallNb(eventPlayer.dmgCostReductionCost, CostMultipliers.DMG_COST_REDUCTION)
+            eventPlayer.dmgCostReductionCost = multiplyBySmallNb(eventPlayer.dmgCostReductionCost, ShopCostMultipliers.DMG_COST_REDUCTION)
 
-    elif distance(eventPlayer.getPosition(), ShopPositions.NEXT_BOSS) < 1:
-        if eventPlayer.hasKilledBoss and isLessThanOrEqual(eventPlayer.nextBossCost, eventPlayer.money):
-            eventPlayer.currentBoss++
-            eventPlayer.money = subtract(eventPlayer.money, eventPlayer.nextBossCost)
-            eventPlayer.moneyMultiplier = multiplyBySmallNb(eventPlayer.moneyMultiplier, BOSS_MONEY_MULT)
-            eventPlayer.moneyIncrement = multiplyBySmallNb(eventPlayer.moneyIncrement, BOSS_MONEY_MULT)
-            eventPlayer.nextBossCost = multiplyBySmallNb(eventPlayer.nextBossCost, CostMultipliers.NEXT_BOSS)
-            eventPlayer.isFighting = true
-            eventPlayer.hasKilledBoss = false
-            
-            #printLog("Entering boss {} with {}e{} money and {}e{}% dmg in {}s".format(eventPlayer.currentBoss, eventPlayer.money.mantissa, eventPlayer.money.exponent, eventPlayer.dmgMultiplier.mantissa, eventPlayer.money.exponent, eventPlayer.timeToBeatBoss))
-            eventPlayer.timeToBeatBoss = 0
 
-    elif distance(eventPlayer.getPosition(), ShopPositions.CURRENT_BOSS) < 1:
+    elif distance(eventPlayer.getPosition(), BOSS_PORTAL_POSITION) < 1:
         eventPlayer.isFighting = true
 
     wait()
@@ -388,21 +376,26 @@ rule "killed boss":
     @Condition attacker != victim
     @Condition attacker.currentBoss == victim.currentBoss
     @Condition not eventPlayer.hasKilledBoss
-    if eventPlayer.currentBoss == UnlockThresholds.MONEY - 1:
+    if eventPlayer.currentBoss == ShopUnlockThresholds.MONEY - 1:
         bigMessage(eventPlayer, "Unlocked money upgrade")
-    if eventPlayer.currentBoss == UnlockThresholds.DMG_UPGRADE_1 - 1:
+    if eventPlayer.currentBoss == UpgradesUnlockThresholds.DMG_UPGRADE_1 - 1:
         bigMessage(eventPlayer, "Unlocked dmg upgrade 1 (x1.5)")
         eventPlayer.dmgMultiplier = multiplyBySmallNb(eventPlayer.dmgMultiplier, 1.5)
         eventPlayer.dmgIncrement = multiplyBySmallNb(eventPlayer.dmgIncrement, 1.5)
-    if eventPlayer.currentBoss == UnlockThresholds.MONEY_ULT_CHARGE - 1:
+    if eventPlayer.currentBoss == UpgradesUnlockThresholds.MONEY_ULT_CHARGE - 1:
         bigMessage(eventPlayer, "Unlocked money *= ult charge")
         eventPlayer.hasUnlockedMoneyUltCharge = true
-    if eventPlayer.currentBoss == UnlockThresholds.CRIT_SQUARED - 1:
+    if eventPlayer.currentBoss == UpgradesUnlockThresholds.CRIT_SQUARED - 1:
         bigMessage(eventPlayer, "Unlocked crit²")
         eventPlayer.hasUnlockedCritSquared = true
 
     eventPlayer.hasKilledBoss = true
     printLog("Killed boss {} with {}e{} money mult and {}e{}% dmg in {}s".format(eventPlayer.currentBoss, eventPlayer.moneyMultiplier.mantissa, eventPlayer.moneyMultiplier.exponent, eventPlayer.dmgMultiplier.mantissa, eventPlayer.money.exponent, eventPlayer.timeToBeatBoss))
+    eventPlayer.currentBoss++
+    eventPlayer.moneyMultiplier = multiplyBySmallNb(eventPlayer.moneyMultiplier, BOSS_MONEY_MULT)
+    eventPlayer.moneyIncrement = multiplyBySmallNb(eventPlayer.moneyIncrement, BOSS_MONEY_MULT)
+    eventPlayer.timeToBeatBoss = 0
+    eventPlayer.respawn()
 
 rule "ded":
     @Event playerDied

@@ -1,7 +1,7 @@
 
 settings {
     "main": {
-        "description": "Cookie clicker (name TBD)\nBy Zezombye\nCtrl+F to get out of arena"
+        "description": "Orb Clicker (BETA - DO NOT SHARE)\nBy Zezombye & Vlosk"
     },
     "gamemodes": {
         "control": {

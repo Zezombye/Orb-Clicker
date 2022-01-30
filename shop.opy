@@ -7,29 +7,29 @@ rule "f to upgrade":
 
     if distance(eventPlayer.getPosition(), ShopPositions.DMG) < 1:
         if isLessThanOrEqual(multiply(eventPlayer.dmgCost, eventPlayer.dmgCostReduction), eventPlayer.money):
-            eventPlayer.dmgMultiplier = add(eventPlayer.dmgMultiplier, eventPlayer.dmgIncrement)
+            eventPlayer.dmgMult = add(eventPlayer.dmgMult, eventPlayer.dmgIncrement)
             eventPlayer.money = subtract(eventPlayer.money, multiply(eventPlayer.dmgCost, eventPlayer.dmgCostReduction))
-            eventPlayer.dmgCost = multiplyBySmallNb(eventPlayer.dmgCost, ShopCostMultipliers.DMG)
+            eventPlayer.dmgCost = multiplyBySmallNb(eventPlayer.dmgCost, ShopCostMults.DMG)
     
-    elif currentBoss >= ShopUnlockThresholds.MONEY and distance(eventPlayer.getPosition(), ShopPositions.MONEY) < 1:
-        if isLessThanOrEqual(eventPlayer.moneyCost, eventPlayer.money):
-            eventPlayer.moneyMultiplier = add(eventPlayer.moneyMultiplier, eventPlayer.moneyIncrement)
-            eventPlayer.money = subtract(eventPlayer.money, eventPlayer.moneyCost)
-            eventPlayer.moneyCost = multiplyBySmallNb(eventPlayer.moneyCost, ShopCostMultipliers.MONEY)
+    elif currentBoss >= ShopUnlockThresholds.MONEY_MULT and distance(eventPlayer.getPosition(), ShopPositions.MONEY_MULT) < 1:
+        if isLessThanOrEqual(eventPlayer.moneyMultCost, eventPlayer.money):
+            eventPlayer.moneyMult = add(eventPlayer.moneyMult, eventPlayer.moneyIncrement)
+            eventPlayer.money = subtract(eventPlayer.money, eventPlayer.moneyMultCost)
+            eventPlayer.moneyMultCost = multiplyBySmallNb(eventPlayer.moneyMultCost, ShopCostMults.MONEY_MULT)
 
             
     elif currentBoss >= ShopUnlockThresholds.DMG_MULT and distance(eventPlayer.getPosition(), ShopPositions.DMG_MULT) < 1:
-        if isLessThanOrEqual(eventPlayer.dmgMultiplierCost, eventPlayer.money):
-            eventPlayer.dmgMultiplier = multiplyBySmallNb(eventPlayer.dmgMultiplier, DMG_MULT_VALUE)
+        if isLessThanOrEqual(eventPlayer.dmgMultCost, eventPlayer.money):
+            eventPlayer.dmgMult = multiplyBySmallNb(eventPlayer.dmgMult, DMG_MULT_VALUE)
             eventPlayer.dmgIncrement = multiplyBySmallNb(eventPlayer.dmgIncrement, DMG_MULT_VALUE)
-            eventPlayer.money = subtract(eventPlayer.money, eventPlayer.dmgMultiplierCost)
-            eventPlayer.dmgMultiplierCost = multiplyBySmallNb(eventPlayer.dmgMultiplierCost, ShopCostMultipliers.DMG_MULT)
+            eventPlayer.money = subtract(eventPlayer.money, eventPlayer.dmgMultCost)
+            eventPlayer.dmgMultCost = multiplyBySmallNb(eventPlayer.dmgMultCost, ShopCostMults.DMG_MULT)
 
     elif currentBoss >= ShopUnlockThresholds.CRIT_MULT and distance(eventPlayer.getPosition(), ShopPositions.CRIT_MULT) < 1:
         if isLessThanOrEqual(eventPlayer.critMultCost, eventPlayer.money):
             eventPlayer.critMult += CRIT_MULT_INCREMENT
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.critMultCost)
-            eventPlayer.critMultCost = multiplyBySmallNb(eventPlayer.critMultCost, ShopCostMultipliers.CRIT_MULT)
+            eventPlayer.critMultCost = multiplyBySmallNb(eventPlayer.critMultCost, ShopCostMults.CRIT_MULT)
 
     elif currentBoss >= ShopUnlockThresholds.CRIT_CHANCE and distance(eventPlayer.getPosition(), ShopPositions.CRIT_CHANCE) < 1:
         if isLessThanOrEqual(eventPlayer.critChanceCost, eventPlayer.money):
@@ -41,7 +41,7 @@ rule "f to upgrade":
         if isLessThanOrEqual(eventPlayer.dmgCostReductionCost, eventPlayer.money):
             eventPlayer.dmgCostReduction = multiplyBySmallNb(eventPlayer.dmgCostReduction, DMG_REDUCTION_COST_MULT)
             eventPlayer.money = subtract(eventPlayer.money, eventPlayer.dmgCostReductionCost)
-            eventPlayer.dmgCostReductionCost = multiplyBySmallNb(eventPlayer.dmgCostReductionCost, ShopCostMultipliers.DMG_COST_REDUCTION)
+            eventPlayer.dmgCostReductionCost = multiplyBySmallNb(eventPlayer.dmgCostReductionCost, ShopCostMults.DMG_COST_REDUCTION)
 
     wait()
     if eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH):

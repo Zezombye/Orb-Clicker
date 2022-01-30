@@ -94,6 +94,7 @@ playervar dmgIndicatorTextIndex = 0
 
 #!include "debug.opy"
 #!include "dummy.opy"
+#!include "shop.opy"
 
 rule "init":
     hudSubtext(localPlayer, "load: {}, avg: {}, max: {}".format(getServerLoad(), getAverageServerLoad(), getPeakServerLoad()), HudPosition.LEFT, LeftSortOrder.SERVER_LOAD, Color.PURPLE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)

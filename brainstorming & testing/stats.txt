@@ -12,3 +12,8 @@
 [00:11:31] Entering boss 6 with 4.94e12 money and 19.24e12% dmg in 175.58s
 [00:15:01] Killed boss 6 with 495.20e12 money and 62.18e12% dmg in 209.91s
 [00:15:05] Entering boss 7 with 483.55e12 money and 62.18e12% dmg in 214.35s
+
+
+end of game (echo):
+497.24Qa% dmg
+40.20 crit mult

@@ -25,5 +25,6 @@ rule "destroy dummies when nobody is at boss":
     @Team 2
     @Condition eventPlayer.isDummy()
     @Condition gameStatus == GameStatus.IN_SHOP
+    wait()
     destroyDummy(Team.2, eventPlayer.getSlot())
         

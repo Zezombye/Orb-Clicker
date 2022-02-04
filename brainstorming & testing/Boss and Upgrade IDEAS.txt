@@ -1,0 +1,90 @@
+NEW UPGRADE IDEAS
+
+Unlock Abilities (Secondary Fire, Ability 1, Ability 2, Ultimate, ?Primary Fire?)[hero specific as to which upgrades appear for player]
+    After Ability purchased, subsequent upgrades:
+        Reduce Ability cooldown
+        increase charges
+        modify resource generation (is resource gen even worth dealing with?)
+
+If primary fire is an upgrade for everybody, start all heroes with only melee enabled? XD
+
+Increase Ammunition
+    Exact increase based on a hero-specific modifier
+    Disabled for heroes who don't use ammunition
+
+
+BOSS IDEAS
+(some of these might be a bit ambitious for the scope of the mode, we can dial things back if that ends up being the case)
+Work-in-progress doc for boss abilities/behavior
+
+
+Reaper
+    Wraith
+        Lifesteals from all enemies in 5-ish radius 
+
+Roadhog
+    Slam
+        floats into the air
+            hangs for a brief moment
+        Becomes Knocked down
+        Falls
+        Damages players on who are on ground (create shockwave effect i.e. dva bomb, expanding ring)
+        Gets back up
+    x3 Slam
+        same as above but executes 2-4 times
+        only triggers past health threshhold (i.e. < 50% hp)
+    AoE Hook
+        If hook connects
+            Boop players who are nearby hook target towards hog
+    Breather
+        Grows larger when taken
+            (pulses in size as he grows)
+            Increases dmg-dealt & reduces dmg taken
+        Add nano-boost OR primal effect
+    Whole Hog
+        0% Knockback
+        vacuums victims hit towards Hog (less impulse/accel with fewer players)
+
+Torbjorn
+    Split (Passive)
+        Whenever Torbjorn is killed, he splits into two smaller Torbjorns with 2/3 - 1/2 hp
+    Turret
+        Becomes dangerous with multiple baby Torbs
+        Increase CD(or wait) the fewer players there are
+    Overload
+
+Winston
+    Primal Rage
+        Selects a player
+        pops ult
+        runs towards target (greatly increased move speed)
+        knocks-down, throws back, damages everyone within 5m along his path
+        Swings at target
+            If hit, fling all victims into air
+        Ult stops (can we cancel primary action? )
+    Shock Barrier
+        drops bubble
+        Bubble scaled 1.5 - 3x
+        damage over time players within the radius Winston dropped bubble
+
+Ashe
+    Invis Dummy Bots
+        Multiple BOBs when casting ult (scales with # of players)
+        Multiple Dynamite throws in an arc
+    Uses Coach Gun on nearby enemies
+    Switches between scoped and unscoped regularly
+
+Hanzo
+    Ult
+        Shoots Dragon Straight Up
+        2-4 Dummy bots in sky shoot dragons straight down towards various points in arena
+    Sonic Arrow
+        Targets hit become marked for assassination
+        Mini Genji's swarm towards marked target
+
+Mercy
+    Rez
+        rezzes previous bosses (can be stunned to interrupt)
+            (kill minions in distance when fight starts, tp rez markers into arena)
+    Guardian Angel
+        Moves between minions when damaged, pockets minions

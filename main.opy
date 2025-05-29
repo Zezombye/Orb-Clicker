@@ -2,8 +2,7 @@
 #!include "settings.opy"
 #!include "beegNumbers.opy"
 
-
-#!obfuscate
+#!optimizeForSize
 
 enum LeftSortOrder:
     SERVER_LOAD,
@@ -38,7 +37,7 @@ enum GameStatus:
 #!define POISON_DMG_INCREMENT 0.0001
 
 globalvar gameStatus = GameStatus.IN_SHOP
-    
+
 
 globalvar i
 globalvar nbSpheres = 33
@@ -97,20 +96,20 @@ playervar dmgIndicatorTextIndex = 0
 #!include "shop.opy"
 
 rule "init":
-    hudSubtext(localPlayer, "load: {}, avg: {}, max: {}".format(getServerLoad(), getAverageServerLoad(), getPeakServerLoad()), HudPosition.LEFT, LeftSortOrder.SERVER_LOAD, Color.PURPLE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudHeader(localPlayer, "Stats", HudPosition.LEFT, LeftSortOrder.STATS_BANNER, Color.PURPLE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudSubtext(localPlayer, "Money: ${} | {} money/dmg".format(formatNb(localPlayer.money), formatNb(multiplyBySmallNb(localPlayer.moneyMult, max(1, localPlayer.getUltCharge()) if localPlayer.hasUnlockedMoneyUltCharge else 1))), HudPosition.LEFT, LeftSortOrder.MONEY, Color.YELLOW, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudSubtext(localPlayer, "{}% dmg dealt".format(formatNb(localPlayer.dmgMult)), HudPosition.LEFT, LeftSortOrder.DMG, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudSubtext(localPlayer, "dmg cost reduced by {}%".format(formatNb(localPlayer.dmgCostReduction)), HudPosition.LEFT, LeftSortOrder.DMG_COST, Color.TURQUOISE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudSubtext(localPlayer, "{}% chance to crit for {}×dmg".format(localPlayer.critChance, localPlayer.critMult), HudPosition.LEFT, LeftSortOrder.CRIT, Color.ORANGE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    hudSubtext(localPlayer, "current boss: {}, time to beat: {}".format(currentBoss, timeToBeatBoss), HudPosition.LEFT, LeftSortOrder.BOSS, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    #hudSubtext(localPlayer, "dmg ratio*1000: {}, hp mult: {}".format(localPlayer.damageRatio*1000, formatNb(bossHpMult[localPlayer.currentBoss])), HudPosition.LEFT, LeftSortOrder.DMG_RATIO, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    #hudHeader(localPlayer, localPlayer.lastDmgDealt, HudPosition.LEFT, LeftSortOrder.LAST_DMG_DEALT, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "load: {}, avg: {}, max: {}".format(getServerLoad(), getAverageServerLoad(), getPeakServerLoad()), HudPosition.ACTUALLY_LEFT, LeftSortOrder.SERVER_LOAD, Color.PURPLE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudHeader(localPlayer, "Stats", HudPosition.ACTUALLY_LEFT, LeftSortOrder.STATS_BANNER, Color.PURPLE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "Money: ${} | {} money/dmg".format(formatNb(localPlayer.money), formatNb(multiplyBySmallNb(localPlayer.moneyMult, max(1, localPlayer.getUltCharge()) if localPlayer.hasUnlockedMoneyUltCharge else 1))), HudPosition.ACTUALLY_LEFT, LeftSortOrder.MONEY, Color.YELLOW, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "{}% dmg dealt".format(formatNb(localPlayer.dmgMult)), HudPosition.ACTUALLY_LEFT, LeftSortOrder.DMG, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "dmg cost reduced by {}%".format(formatNb(localPlayer.dmgCostReduction)), HudPosition.ACTUALLY_LEFT, LeftSortOrder.DMG_COST, Color.TURQUOISE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "{}% chance to crit for {}×dmg".format(localPlayer.critChance, localPlayer.critMult), HudPosition.ACTUALLY_LEFT, LeftSortOrder.CRIT, Color.ORANGE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudSubtext(localPlayer, "current boss: {}, time to beat: {}".format(currentBoss, timeToBeatBoss), HudPosition.ACTUALLY_LEFT, LeftSortOrder.BOSS, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #hudSubtext(localPlayer, "dmg ratio*1000: {}, hp mult: {}".format(localPlayer.damageRatio*1000, formatNb(bossHpMult[localPlayer.currentBoss])), HudPosition.ACTUALLY_LEFT, LeftSortOrder.DMG_RATIO, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudHeader(localPlayer, localPlayer.lastDmgDealt, HudPosition.ACTUALLY_LEFT, LeftSortOrder.LAST_DMG_DEALT, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     hudSubtext(localPlayer, " \n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", HudPosition.TOP, TopSortOrder.SHOP_DESCRIPTION_VERTICAL_OFFSET, Color.ROSE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
 
     for i in range(1, len(bossHeroes)):
         bossHpMult[i] = multiplyBySmallNb(bossHpMult[i-1], BOSS_HP_MULT)
-    
+
     for i in range(DMG_INDICATOR_MAX_TEXTS):
         createInWorldText(localPlayer if dmgIndicatorTime - localPlayer.dmgIndicatorTimeOffsets[evalOnce(i)] >= 0 and dmgIndicatorTime - localPlayer.dmgIndicatorTimeOffsets[evalOnce(i)] <= 0.7 else null, localPlayer.dmgDealt[evalOnce(i)], updateEveryTick(localPlayer.dmgIndicatorTextPos[evalOnce(i)] + vect(
             0,
@@ -122,7 +121,7 @@ rule "init":
 
     wait(5)
     chase(dmgIndicatorTime, Math.INFINITY, rate=1, ChaseReeval.NONE)
-        
+
 
 
 rule "init player":
@@ -138,7 +137,7 @@ rule "init player":
     eventPlayer.setRespawnTime(Math.INFINITY)
     eventPlayer.disableRespawn()
     chase(timeToBeatBoss, 99999, rate=1, ChaseReeval.NONE)
-    
+
     wait(5)
     eventPlayer.enableMessages()
     if DEBUG_MONEY:
@@ -184,10 +183,10 @@ rule "create effects":
 
     createEffect(getAllPlayers(), Effect.RING, Color.AQUA, ShopPositions.DMG, 1, EffectReeval.VISIBILITY)
     createInWorldText(getAllPlayers(), "+{}% dmg: ${}".format(formatNb(localPlayer.dmgIncrement), formatNb(multiply(localPlayer.dmgCost, localPlayer.dmgCostReduction))), ShopPositions.DMG+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.AQUA, SpecVisibility.ALWAYS)
-    
+
     createEffect(getAllPlayers(), Effect.RING, Color.AQUA, ShopPositions.CRIT_CHANCE, 1, EffectReeval.VISIBILITY)
     createInWorldText(getAllPlayers(), "+1% crit chance: ${}".format(formatNb(localPlayer.critChanceCost)), ShopPositions.CRIT_CHANCE+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.AQUA, SpecVisibility.ALWAYS)
-    
+
     createEffect(getAllPlayers(), Effect.RING, Color.AQUA, ShopPositions.CRIT_MULT, 1, EffectReeval.VISIBILITY)
     createInWorldText(getAllPlayers(), "+{} crit multiplier: ${}".format(CRIT_MULT_INCREMENT, formatNb(localPlayer.critMultCost)), ShopPositions.CRIT_MULT+vect(0,1,0), 1, Clip.SURFACES, WorldTextReeval.VISIBILITY_AND_STRING, Color.AQUA, SpecVisibility.ALWAYS)
 
@@ -203,7 +202,7 @@ rule "create effects":
                 multiplyBySmallNb(bossHpMult[currentBoss], bossEntity.getHealth())
             ),
             formatNb(bossEntity.hpMultiplier)
-        ), 
+        ),
         HudPosition.TOP, TopSortOrder.BOSS_HP_BAR, Color.RED, Color.RED, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.DEFAULT
     )
 
@@ -226,7 +225,7 @@ rule "player is fighting":
     eventPlayer.setDamageDealt(eventPlayer.damageRatio)
     eventPlayer.setUltCharge(0)
     eventPlayer.teleport(bossPositions[currentBoss])
-    
+
 
 rule "player exited arena":
     @Event eachPlayer
@@ -237,8 +236,15 @@ rule "player exited arena":
         wait()
     while RULE_CONDITION
 
+rule "unalive":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition gameStatus == GameStatus.FIGHTING
+    kill(eventPlayer)
+
 rule "all players ded":
-    @Condition len(getDeadPlayers(Team.1)) == len(getPlayers(Team.1))
+    @Condition len(getDeadPlayers(Team.1)) == len([p for p in getPlayers(Team.1) if p.hasSpawned()])
     gameStatus = GameStatus.IN_SHOP
 
 
@@ -247,7 +253,7 @@ rule "gain money":
     @Event playerDealtDamage
     @Team 1
     @Condition attacker != victim
-    
+
     #https://discord.com/channels/570672959799164958/570688774216876052/776257368228757554
 
     if eventAbility == null:
@@ -277,7 +283,7 @@ rule "gain money":
         #damage indicator
         #attacker.dmgDealt[attacker.dmgIndicatorTextIndex] = eventDamage
         attacker.dmgDealt[attacker.dmgIndicatorTextIndex] = formatNb(multiplyBySmallNb(bossHpMult[currentBoss], eventDamage))
-        
+
         attacker.dmgIndicatorColors[attacker.dmgIndicatorTextIndex] = rgb(255, max(255 - (256*8)*(eventDamage/victim.getMaxHealth()), 21), abs(255 - (256*16)*(eventDamage/victim.getMaxHealth())))
         attacker.dmgIndicatorTextPos[attacker.dmgIndicatorTextIndex] = victim.getEyePosition()
         attacker.dmgIndicatorVelocity[attacker.dmgIndicatorTextIndex] = random.uniform(9, 12)
@@ -315,4 +321,3 @@ rule "killed boss":
     timeToBeatBoss = 0
     getAllPlayers().respawn()
     gameStatus = GameStatus.IN_SHOP
-

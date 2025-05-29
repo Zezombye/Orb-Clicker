@@ -1,3 +1,29 @@
+https://www.reddit.com/r/incremental_gamedev/comments/saupyb/how_to_balance_a_multiplayer_incremental_game/
+
+Option C is meh because:
+- players joining mid-game will have a ton of info and will be pressured to play immediately
+- you have to rely on other players to heal you etc (and in a custom game that's a bad idea, assume your teammates are bronze level)
+
+Option A is also meh:
+- only max 6 players
+- not really multiplayer, players will rarely be at the same boss (there is no ascension)
+
+Option B actually seems to be the best
+The key is to make an upgrade that grants you like 1% more money (compounding or not) every second you spend in the boss fight.
+This encourages staying alive.
+Could also do 1% more dmg every second you spend, so the boss is only beatable if you manage to survive more than X seconds
+
+The problem remains as to how to deal with players joining mid-game who will be met with a ton of unlocked upgrades
+
+---
+
+Name: "infinity clicker"
+OPM-like story where Moira has granted herself infinite power and is trying to find worthy rivals
+The final boss (or second to last boss) grants opaf upgrades so you get like 1e9999999 money but it doesn't matter as it's nothing compared to infinity
+The boss fight relies on avoiding damage then idk
+
+
+
 NEW UPGRADE IDEAS
 
 Unlock Abilities (Secondary Fire, Ability 1, Ability 2, Ultimate, ?Primary Fire?)[hero specific as to which upgrades appear for player]
@@ -20,7 +46,7 @@ Work-in-progress doc for boss abilities/behavior
 
 Reaper
     Wraith
-        Lifesteals from all enemies in 5-ish radius 
+        Lifesteals from all enemies in 5-ish radius
 
 Roadhog
     Slam

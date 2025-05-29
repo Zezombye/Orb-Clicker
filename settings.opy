@@ -5,7 +5,7 @@ settings {
         "description": "Orb Clicker (BETA - DO NOT SHARE)\nBy Zezombye & Vlosk"
     },
     "gamemodes": {
-        "control": {
+        "skirmish": {
             "enabledMaps": [
                 "oasis"
             ],
@@ -20,7 +20,7 @@ settings {
     "heroes": {
         "allTeams": {
             "pharah": {
-                "enableSecondaryFireUnlimitedFuel": true
+                "enablePassiveUnlimitedFuel": true
             },
             "general": {
                 "health%": 500,
